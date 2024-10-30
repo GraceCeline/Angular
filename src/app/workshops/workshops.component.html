@@ -1,0 +1,57 @@
+<div class="text-center mb-4 my-4">
+    <h1>Welcome to our page!</h1>
+    <p>All workshops available are listed below</p>
+    <button class="btn btn-primary" (click)="checkWorkshop()">Retrieve Workshops</button>
+    <p><a href="" style="text-decoration: none;">Are you an admin? Go to the admin site!</a></p>
+    <p><a href="" class="btn btn-secondary" role="button">Create your own workshop here!</a></p>
+    <p><a href="" class="btn btn-secondary" role="button">Log out</a></p>
+
+</div>
+
+<!--        <div class="justify-content-center d-flex mb-2">
+                <form (ngSubmit)="onSearch()" class="d-flex">  
+                    <input type="search" [(ngModel)]="searchQuery" class="form-control rounded me-0" aria-label="Search" aria-describedby="search-addon"  placeholder="Search.." size="40">
+                    <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Search<i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            -->
+
+<div class="workshops">
+    <div class="row justify-content-space-around" *ngFor="let workshop of workshops; let i = index">
+        {{i}}
+        <h5 class="card-title"><a href="">{{ workshop.workshop_title }}</a></h5>
+        <p class="card-text">{{ workshop.description }}</p>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="">{{ workshop.workshop_title }}</a></h5>
+                    <p class="card-text">{{ workshop.description }}</p>
+                    <a [routerLink]="['/workshop/edit', workshop.id]" class="btn btn-warning" role="button">Edit</a>
+                    <a [routerLink]="['/workshop/delete', workshop.id]" class="btn btn-danger" role="button">Delete</a>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="testFunction(i)" class="row justify-content-space-around"></div>
+
+    </div>
+</div>
+
+<!--<h3>Past Workshop</h3> 
+<div class="workshops">
+    <div class="row justify-content-space-around" *ngFor="let workshop of workshops; let i = index">
+        <div class="col-md-4" *ngIf="workshop.past_workshop">
+            <div class="card bg-secondary-subtle mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="">{{ workshop.workshop_title }}</a></h5>
+                    <p class="card-text">{{ workshop.description }}</p>
+                    <a [routerLink]="['/workshop/edit', workshop.id]" class="btn btn-warning" role="button">Edit</a>
+                    <a [routerLink]="['/workshop/delete', workshop.id]" class="btn btn-danger" role="button">Delete</a>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="testFunction(i)" class="row justify-content-space-around"></div>
+    </div>
+</div>
+-->
