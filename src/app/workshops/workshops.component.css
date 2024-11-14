@@ -1,0 +1,17 @@
+.workshops, button{
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-bottom: 50px;
+}
+
+a {
+    color: #093741;
+    text-decoration: none;
+}
+
+.card{
+    width: 25rem;
+    margin-right: 1rem;
+}
