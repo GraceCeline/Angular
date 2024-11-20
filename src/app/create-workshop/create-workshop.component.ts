@@ -17,7 +17,8 @@ import { NgFor, NgIf } from '@angular/common';
 })
 export class CreateWorkshopComponent implements OnInit{
 
-  tools: Tool[] = [];
+  tool: Tool[] = [];
+  error : any = null;
   
   private formBuilder = inject(FormBuilder);
 
@@ -28,7 +29,7 @@ export class CreateWorkshopComponent implements OnInit{
     this.handleTypeOfPresenceChange();
   }
 
-  workshopForm = new FormGroup({
+   workshopForm = new FormGroup({
     workshop_title: new FormControl('', Validators.required),
       description: new FormControl(''),
       date: new FormControl(null, Validators.required),
@@ -45,7 +46,7 @@ export class CreateWorkshopComponent implements OnInit{
 
   loadTools(): void {
     this.workshopsService.getTools().subscribe((tools: Tool[]) => {
-      this.tools = tools;
+      this.tool = tools;
     });
   }
 
@@ -60,27 +61,29 @@ export class CreateWorkshopComponent implements OnInit{
 
   onToolChange(tool: Tool, event: Event): void {
     const toolsArray = this.workshopForm.get('tool') as FormArray;
+    console.log(toolsArray);
     if ((event.target as HTMLInputElement).checked) {
-      toolsArray.push(new FormControl({ id: tool.id, tool: tool.tool }));
+      toolsArray.push(new FormControl(tool));
     } else {
       const index = toolsArray.controls.findIndex(x => x.value.id === tool.id);
       toolsArray.removeAt(index);
     }
   }
 
-  createWorkshop(){
-    if (this.workshopForm.valid) {
+  createWorkshop() : void{
+    // if (this.workshopForm.valid) {
     const workshopData = new Workshop(this.workshopForm.value as Partial<Workshop>);
-    return this.workshopsService.createWorkshop(workshopData).subscribe({
-      next: (response) => {
+    this.workshopsService.createWorkshop(workshopData).subscribe(
+      response => {
         console.log('Workshop saved successfully:', response);
         this.workshopForm.reset();
         },
-      });
-  } else {
-    console.error('Form is invalid!');
-    return null;
-  }
+      (error: any) => {
+          console.error('Error:', error); // Log error to console
+          this.error = error; // Optionally display the error in the UI
+        }
+    );
+  // }
 
   }
 }

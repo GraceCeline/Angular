@@ -56,9 +56,9 @@
 
     <div>
       <label>Tools</label>
-      <div *ngFor="let tool of tools">
-        <input type="checkbox" [value]="tool.tool" (change)="onToolChange(tool, $event)"/>
-        <label>{{ tool.tool }}</label>
+      <div *ngFor="let t of tool">
+        <input type="checkbox" [value]="t.id" (change)="onToolChange(t, $event)"/>
+        <label>{{ t.tool }}</label>
       </div>
     </div>
 

@@ -6,14 +6,27 @@
     <button class="btn btn-secondary">Log out</button>
 </div>
 
+<div class="search text-center mb-4 my-4">
+    <input type="text" placeholder="Filter...">
+    <!-- button class="btn btn-primary" (click) ="onSearch()">Search</button-->
+</div>
+
 <button class="btn btn-primary" (click)="getWorkshops()">Retrieve Workshop</button>
-<div class="workshops col-md-4" *ngFor="let workshop of workshops" >
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title" ><a [routerLink]="['/workshop', workshop.id]">{{ workshop.workshop_title }}</a></h5>
-            <p class="card-text">{{ workshop.description }}</p>
-            <button class="btn btn-warning" role="button">Edit</button>
-            <button class="btn btn-danger" role="button">Delete</button>
+
+<div class="workshops">
+    <div class="row" *ngFor="let row of chunkedWorkshops(workshops, 3)">
+      <div class="col-md-4" *ngFor="let workshop of row">
+        <div class="card mb-4">
+          <div class="card-body">
+                <h5 class="card-title" ><a [routerLink]="['/workshop', workshop.id]">{{ workshop.workshop_title }}</a></h5>
+                <p class="card-text">{{ workshop.description }}</p>
+                <p class="card-text">{{ workshop.date }}</p>
+                <p class="card-text">{{ workshop.tutor }}</p>
+                    <button class="btn btn-warning mr-2" role="button">Edit</button>
+                    <button class="btn btn-danger" role="button">Delete</button>            
+          </div>
         </div>
+      </div>
     </div>
 </div>
+  

@@ -3,6 +3,9 @@
     <h3>{{ workshop.description }}</h3>
     <p>Date: {{ workshop.date }}</p>
     <h2>Tools</h2>
+    <ul *ngFor="let t of workshop.tool">
+        <li>{{ getToolName(t) }}</li>
+    </ul>
     <p>{{ workshop.prerequisite }}</p>
     <p>Location: {{ workshop.location }}</p>
     <p>Host: {{ workshop.tutor }}</p>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Workshop } from './workshops/workshops.model';
 import { Tool } from './workshops/tool.model';
 
@@ -29,6 +29,10 @@ export class WorkshopsService {
 
   createWorkshop(workshop :Workshop) : Observable<Workshop>{
     
-    return this.http.post<Workshop>(this.createUrl, workshop);
+    return this.http.post<Workshop>(this.createUrl, workshop).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.error); // Return the error for the component to handle
+      })
+    );
   }
 }

@@ -15,7 +15,7 @@ export class Workshop {
     registration_link?: string;  
     registration_deadline: Date;
     is_private: boolean;
-    tool: Tool[] = [];
+    tool: number[] = [];
   
    
       constructor(data: Partial<Workshop> = {}) {
@@ -36,6 +36,7 @@ export class Workshop {
         this.registration_link = data.registration_link || '';
         this.registration_deadline = data.registration_deadline || new Date();
         this.is_private = data.is_private || false;
+        this.tool = data.tool || [];
       }
 
     getDate():Date {

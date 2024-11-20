@@ -4,7 +4,7 @@ export class Tool {
     
     constructor(id : number, tool : string) {
       this.id = id;
-        this.tool = tool;
+      this.tool = tool;
     }
   
   }

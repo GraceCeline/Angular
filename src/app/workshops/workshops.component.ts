@@ -18,7 +18,9 @@ export class WorkshopsComponent implements OnInit{
  
   title = "Workshop"
 
+  searchQuery: string = '';
   workshops: Workshop[] = [];
+  filteredWorkshop : Workshop [] = [];
 
   constructor (private workshopsService : WorkshopsService) {}
 
@@ -30,9 +32,22 @@ export class WorkshopsComponent implements OnInit{
     this.workshopsService.getWorkshops().subscribe((data => {
       this.workshops = data;
     }))
+
+    
+  }
+
+  chunkedWorkshops(array: any[], chunkSize: number): any[][] {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
   }
 
   testFunction(i: number) {
     return (i + 1) % 3 === 0 && i + 1 !== this.workshops.length;
   }
+
+  
+
 }
