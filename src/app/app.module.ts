@@ -27,6 +27,7 @@ import { ModalComponent } from './modal/modal.component';
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     NgbModalModule,
+    FormsModule,
   ],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent]  // <-- Bootstraps the root component

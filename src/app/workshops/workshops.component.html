@@ -7,14 +7,14 @@
 </div>
 
 <div class="search text-center mb-4 my-4">
-    <input type="text" placeholder="Filter...">
+    <input type="text" class ="form-control" placeholder="Filter..." [(ngModel)]="searchQuery" (input)="searchWorkshops()">
     <!-- button class="btn btn-primary" (click) ="onSearch()">Search</button-->
 </div>
 
 <button class="btn btn-primary" (click)="getWorkshops()">Retrieve Workshop</button>
 
 <div class="workshops">
-    <div class="row" *ngFor="let row of chunkedWorkshops(workshops, 3)">
+    <div class="row" *ngFor="let row of chunkedWorkshops(filteredWorkshops, 3)">
       <div class="col-md-4" *ngFor="let workshop of row">
         <div class="card mb-4">
           <div class="card-body">

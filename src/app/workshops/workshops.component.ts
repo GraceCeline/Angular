@@ -5,11 +5,12 @@ import { RouterModule } from '@angular/router';
 import { Router } from 'express';
 import { NgFor, NgIf } from '@angular/common';
 import { Workshop } from './workshops.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-workshops',
   standalone: true,
-  imports: [RouterModule, NgFor, NgIf,],
+  imports: [RouterModule, NgFor, NgIf, FormsModule,],
   templateUrl: './workshops.component.html',
   styleUrl: './workshops.component.css',
   providers: [ WorkshopsService, ]
@@ -20,7 +21,7 @@ export class WorkshopsComponent implements OnInit{
 
   searchQuery: string = '';
   workshops: Workshop[] = [];
-  filteredWorkshop : Workshop [] = [];
+  filteredWorkshops: Workshop[] = [];
 
   constructor (private workshopsService : WorkshopsService) {}
 
@@ -31,9 +32,20 @@ export class WorkshopsComponent implements OnInit{
   getWorkshops() {
     this.workshopsService.getWorkshops().subscribe((data => {
       this.workshops = data;
+      this.filteredWorkshops = data;
+      this.searchWorkshops();
     }))
+  }
 
-    
+  searchWorkshops() {
+    if (this.searchQuery) {
+      this.filteredWorkshops = this.workshops.filter(workshop =>
+        workshop.workshop_title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    } else {
+      // If searchQuery is empty, show all workshops
+      this.filteredWorkshops = this.workshops;
+    }
   }
 
   chunkedWorkshops(array: any[], chunkSize: number): any[][] {
@@ -44,10 +56,5 @@ export class WorkshopsComponent implements OnInit{
     return result;
   }
 
-  testFunction(i: number) {
-    return (i + 1) % 3 === 0 && i + 1 !== this.workshops.length;
-  }
-
-  
 
 }

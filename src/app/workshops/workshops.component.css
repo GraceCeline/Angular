@@ -15,3 +15,9 @@ a {
     width: 25rem;
     margin-right: 1rem;
 }
+
+input {
+    width: 300px;  /* Set a specific width for the search bar */
+    padding: 10px; /* Add padding for better spacing */
+    margin : auto;
+  }
