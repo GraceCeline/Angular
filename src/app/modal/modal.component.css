@@ -1,0 +1,9 @@
+.modal {
+    max-width: 600px;  /* Ensure the modal is wide enough */
+    margin: auto;  /* Center the modal */
+  }
+  .modal {
+    z-index: 1050 !important; /* Adjust this if needed */
+  }
+  
+  

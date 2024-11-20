@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { routes } from '../app.routes';
 import { Tool } from '../workshops/tool.model';
 import { NgFor, NgIf } from '@angular/common';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-create-workshop',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, NgFor, NgIf,],
+  imports: [ReactiveFormsModule, RouterModule, NgFor, NgIf, ModalComponent],
   templateUrl: './create-workshop.component.html',
   styleUrl: './create-workshop.component.css',
   providers : [WorkshopsService, ]
@@ -18,7 +19,7 @@ import { NgFor, NgIf } from '@angular/common';
 export class CreateWorkshopComponent implements OnInit{
 
   tool: Tool[] = [];
-  error : any = null;
+  errorMessages : string[] = [];
   
   private formBuilder = inject(FormBuilder);
 
@@ -78,9 +79,9 @@ export class CreateWorkshopComponent implements OnInit{
         console.log('Workshop saved successfully:', response);
         this.workshopForm.reset();
         },
-      (error: any) => {
-          console.error('Error:', error); // Log error to console
-          this.error = error; // Optionally display the error in the UI
+      error => {
+          console.error('Error caught:', error); // Log error to console
+          this.errorMessages = this.workshopsService.handleError(error);
         }
     );
   // }

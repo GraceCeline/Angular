@@ -1,0 +1,18 @@
+<div class="modal" id="myModal">
+    <div class="modal-header" style="padding: 15px 20px;">
+        <h4 class="modal-title" style="font-size: 24px; margin-bottom: 10px; font-weight: bold; color: #d9534f;">
+        Error!
+        </h4>
+    </div>
+    <div class="modal-body" style="padding: 20px;">
+        <ul style="list-style-type: none; padding: 0;">
+        <li *ngFor="let errorMessage of errorMessages" class="text-danger" style="margin-bottom: 5px;">
+            {{ errorMessage }}
+        </li>
+        </ul>
+    </div>
+    <div class="modal-footer" style="padding: 15px 20px; justify-content: flex-end;">
+        <!-- Dismiss button aligned to the right -->
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">Dismiss</button>
+    </div>
+  

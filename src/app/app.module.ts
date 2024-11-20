@@ -9,20 +9,24 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { DetailWorkshopComponent } from './detail-workshop/detail-workshop.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,  // <-- Ensure AppComponent is declared here
     WorkshopsComponent, // Your custom component
     CreateWorkshopComponent,
+    DetailWorkshopComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
-    WorkshopsComponent,
     CommonModule,
-    CreateWorkshopComponent,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
+    NgbModalModule,
   ],
   providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent]  // <-- Bootstraps the root component
