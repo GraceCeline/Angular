@@ -1,11 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { WorkshopsService } from '../workshops.service';
 import { RouterModule } from '@angular/router';
 import { Router } from 'express';
 import { NgFor, NgIf } from '@angular/common';
 import { Workshop } from './workshops.model';
 import { FormsModule } from '@angular/forms';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-workshops',
@@ -20,8 +20,12 @@ export class WorkshopsComponent implements OnInit{
   title = "Workshop"
 
   searchQuery: string = '';
-  workshops: Workshop[] = [];
   filteredWorkshops: Workshop[] = [];
+  pages : number = 1;
+  previousPage!: string;
+  nextPage!: string;
+  currentPage : number = 1;
+  @Output() pageChange = new EventEmitter<PageEvent>();
 
   constructor (private workshopsService : WorkshopsService) {}
 
@@ -30,23 +34,23 @@ export class WorkshopsComponent implements OnInit{
   }
 
   getWorkshops() {
-    this.workshopsService.getWorkshops().subscribe((data => {
-      this.workshops = data;
-      this.filteredWorkshops = data;
-      this.searchWorkshops();
-    }))
+    const query = this.searchQuery.trim();
+    this.workshopsService.getWorkshops(query).subscribe(
+      (data) => {
+        console.log(data);
+        this.filteredWorkshops = data.results;
+        console.log(this.filteredWorkshops.length);
+        this.pages = Math.ceil(data.count / 6);
+        this.previousPage = data.previous;
+        this.nextPage = data.next;
+        console.log(this.pages);
+      },
+      (error) => {
+        console.error('Error fetching workshops:', error);
+      }
+    );
   }
 
-  searchWorkshops() {
-    if (this.searchQuery) {
-      this.filteredWorkshops = this.workshops.filter(workshop =>
-        workshop.workshop_title.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    } else {
-      // If searchQuery is empty, show all workshops
-      this.filteredWorkshops = this.workshops;
-    }
-  }
 
   chunkedWorkshops(array: any[], chunkSize: number): any[][] {
     const result = [];
@@ -56,5 +60,47 @@ export class WorkshopsComponent implements OnInit{
     return result;
   }
 
+  goToPage(page: number): void {
+    if (page > 0 && page <= this.pages) {
+      this.currentPage = page;
+      this.getWorkshops();
+    }
+  }
+
+  goToNext(url : string){
+    this.currentPage++;
+    this.workshopsService.getWorkshopsByUrl(this.nextPage).subscribe(
+      (data) => {
+        console.log(data);
+        this.filteredWorkshops = data.results;
+        console.log(this.filteredWorkshops.length);
+        this.pages = Math.ceil(data.count / 6);
+        this.previousPage = data.previous;
+        this.nextPage = data.next;
+        console.log(this.pages);
+      },
+      (error) => {
+        console.error('Error fetching workshops:', error);
+      }
+    );
+  }
+
+  goToPrevious(url : string){
+    this.currentPage--;
+    this.workshopsService.getWorkshopsByUrl(this.previousPage).subscribe(
+      (data) => {
+        console.log(data);
+        this.filteredWorkshops = data.results;
+        console.log(this.filteredWorkshops.length);
+        this.pages = Math.ceil(data.count / 6);
+        this.previousPage = data.previous;
+        this.nextPage = data.next;
+        console.log(this.pages);
+      },
+      (error) => {
+        console.error('Error fetching workshops:', error);
+      }
+    );
+  }
 
 }

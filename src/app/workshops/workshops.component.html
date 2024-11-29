@@ -7,7 +7,7 @@
 </div>
 
 <div class="search text-center mb-4 my-4">
-    <input type="text" class ="form-control" placeholder="Filter..." [(ngModel)]="searchQuery" (input)="searchWorkshops()">
+    <input type="text" class ="form-control" placeholder="Filter..." [(ngModel)]="searchQuery">
     <!-- button class="btn btn-primary" (click) ="onSearch()">Search</button-->
 </div>
 
@@ -28,5 +28,18 @@
         </div>
       </div>
     </div>
+</div>
+
+<div class="pagination-controls">
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+    &lt;
+  </button>
+  <span>Page {{ currentPage }} of {{ pages }}</span>
+  <button
+    (click)="goToPage(currentPage + 1)"
+    [disabled]="currentPage === pages"
+  >
+  &gt;
+  </button>
 </div>
   
