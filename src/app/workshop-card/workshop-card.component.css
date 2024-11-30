@@ -1,0 +1,12 @@
+a {
+    color: #093741;
+    text-decoration: none;
+}
+
+.workshops, button{
+    margin-left: 20px;
+    margin-right: 50px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-bottom: 50px;
+}

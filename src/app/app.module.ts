@@ -12,6 +12,7 @@ import { routes } from './app.routes';
 import { DetailWorkshopComponent } from './detail-workshop/detail-workshop.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './modal/modal.component';
+import { WorkshopCardComponent } from './workshop-card/workshop-card.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ModalComponent } from './modal/modal.component';
     CreateWorkshopComponent,
     DetailWorkshopComponent,
     ModalComponent,
+    WorkshopCardComponent,
   ],
   imports: [
     BrowserModule,

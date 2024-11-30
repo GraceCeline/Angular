@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { Workshop, PaginatedResponse } from './workshops/workshops.model';
+import { Workshop } from './workshops/workshops.model';
 import { Tool } from './workshops/tool.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgFor } from '@angular/common';
@@ -15,6 +15,7 @@ export class WorkshopsService {
   createUrl = 'http://localhost:8000/workshop/create/';
   toolUrl = 'http://localhost:8000/workshop/tools/';
   token = "6a4dba40365ded0dd5bf34e124d2caa4cda79bd1";
+  baseUrl = 'http://localhost:8000/workshop/';
 
   constructor(private http: HttpClient, private modalService : NgbModal) { }
 
@@ -41,6 +42,10 @@ export class WorkshopsService {
   createWorkshop(workshop :Workshop) : Observable<Workshop>{
     
     return this.http.post<Workshop>(this.createUrl, workshop);
+  }
+
+  deleteWorkshop(id : number) : Observable<Workshop> {
+    return this.http.delete<Workshop>(`${this.baseUrl}${id}/delete/`);
   }
 
   handleError(error: HttpErrorResponse) {

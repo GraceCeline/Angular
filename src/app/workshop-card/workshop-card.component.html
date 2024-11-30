@@ -1,0 +1,13 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">
+      <a [routerLink]="['/workshop', workshop.id]">{{ workshop.workshop_title }}</a>
+    </h5>
+    <p class="card-text">{{ workshop.description }}</p>
+    <p class="card-text">Date : {{ workshop.date }}</p>
+    <p class="card-text">Max Participants : {{ workshop.max_participants }}</p>
+    <p class="card-text">{{ workshop.tutor }}</p>
+    <button class="btn btn-warning mr-2" (click)="onEdit()">Edit</button>
+    <button class="btn btn-danger" (click)="openDeleteModal(workshop.id)">Delete</button>
+  </div>
+</div>
