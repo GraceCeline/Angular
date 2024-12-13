@@ -1,0 +1,14 @@
+<div id="myModal">
+    <div class="modal-header" style="padding: 15px 20px;">
+        <h4 class="modal-title" style="font-size: 24px; margin-bottom: 10px; font-weight: bold; color: #463d91;">
+        Success! Status {{ statusCode }}
+        </h4>
+    </div>
+    <div class="modal-body" style="padding: 20px;">
+    <p>{{ message }} </p>
+    </div>
+    <div class="modal-footer" style="padding: 15px 20px; justify-content: flex-end;">
+        <!-- Dismiss button aligned to the right -->
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">Dismiss</button>
+    </div>
+</div>
