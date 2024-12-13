@@ -1,0 +1,13 @@
+input.invalid {
+    border-color: red;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.9em;
+    visibility: hidden;
+  }
+  
+  .error.visible {
+    visibility: visible;
+  }
