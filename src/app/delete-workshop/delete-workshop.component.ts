@@ -20,9 +20,10 @@ export class DeleteWorkshopComponent {
 
   deleteWorkshop(){
     this.workshopService.deleteWorkshop(this.workshop_id).subscribe((response) => {
+      this.workshopService.notifyWorkshopDeleted(this.workshop_id);
       console.log('Workshop deleted successfully:', response, this.workshop_id);
   });
-    console.log('Deleting workshop with ID:', this.workshop_id);
     this.deleteModal.close('Workshop deleted');
+    this.workshopService.openModal(204,`Deleting workshop with ID: ${this.workshop_id}`);
   }
 }
