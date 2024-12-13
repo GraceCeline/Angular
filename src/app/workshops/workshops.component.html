@@ -2,7 +2,7 @@
     <h1>Welcome to our page!</h1>
     <p>All workshops available are listed below</p>
     <p><a href="http://127.0.0.1:8000/admin/" target="_blank" style="text-decoration: none;">Are you an admin? Go to the admin site!</a></p>
-    <button class="btn btn-secondary"><a [routerLink]="['/create']" >Create your own workshop here!</a></button> 
+    <button class="btn btn-secondary" style=" color: white;"><a [routerLink]="['/create']" >Create your own workshop here!</a></button> 
     <button class="btn btn-secondary">Log out</button>
 </div>
 
@@ -16,30 +16,24 @@
 <div class="workshops">
     <div class="row" *ngFor="let row of chunkedWorkshops(filteredWorkshops, 3)">
       <div class="col-md-4" *ngFor="let workshop of row">
-        <div class="card mb-4">
-          <div class="card-body">
-                <h5 class="card-title" ><a [routerLink]="['/workshop', workshop.id]">{{ workshop.workshop_title }}</a></h5>
-                <p class="card-text">{{ workshop.description }}</p>
-                <p class="card-text">{{ workshop.date }}</p>
-                <p class="card-text">{{ workshop.tutor }}</p>
-                    <button class="btn btn-warning mr-2" role="button">Edit</button>
-                    <button class="btn btn-danger" role="button">Delete</button>            
-          </div>
-        </div>
+        <app-workshop-card 
+        [workshop]="workshop" py>
+      </app-workshop-card>
       </div>
     </div>
 </div>
 
 <div class="pagination-controls">
-  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+  <button (click)="goToPrevious()" [disabled]="currentPage === 1">
     &lt;
   </button>
   <span>Page {{ currentPage }} of {{ pages }}</span>
   <button
-    (click)="goToPage(currentPage + 1)"
+    (click)="goToNext()"
     [disabled]="currentPage === pages"
   >
   &gt;
   </button>
 </div>
+
   

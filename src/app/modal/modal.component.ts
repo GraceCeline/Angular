@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -9,8 +9,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css'
 })
-export class ModalComponent {
+export class ModalComponent  implements OnInit{
   @Input() errorMessages: string[] = []; // Array to hold multiple error messages
 
   constructor(public activeModal: NgbActiveModal) {}
+
+  ngOnInit(): void {
+    console.log(this.errorMessages)
+  }
 }

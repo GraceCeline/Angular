@@ -6,7 +6,7 @@ export class Workshop {
     workshop_title: string;
     description: string;
     tutor : string;
-    date: Date;
+    date: Date ;
     further_info_link? : string;
     prerequisite : string;
     max_participants : number;
@@ -30,7 +30,7 @@ export class Workshop {
         this.date = data.date || new Date();
         this.further_info_link = data.further_info_link || '';
         this.prerequisite = data.prerequisite || '';
-        this.max_participants = data.max_participants || 0;
+        this.max_participants = data.max_participants ?? 0;
         this.type_of_presence = data.type_of_presence || 'onsite';
         this.location = data.location || '';
         this.registration_link = data.registration_link || '';

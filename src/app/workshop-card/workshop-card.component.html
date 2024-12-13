@@ -7,7 +7,7 @@
     <p class="card-text">Date : {{ workshop.date }}</p>
     <p class="card-text">Max Participants : {{ workshop.max_participants }}</p>
     <p class="card-text">{{ workshop.tutor }}</p>
-    <button class="btn btn-warning mr-2" (click)="onEdit()">Edit</button>
+    <button class="btn btn-warning mr-2" ><a [routerLink]="['/workshop', workshop.id,'edit']">Edit</a></button>
     <button class="btn btn-danger" (click)="openDeleteModal(workshop.id)">Delete</button>
   </div>
 </div>

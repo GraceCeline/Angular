@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse } from '@angular/common/http';
+import { catchError, map, Observable, Subject, tap, throwError } from 'rxjs';
 import { Workshop } from './workshops/workshops.model';
 import { Tool } from './workshops/tool.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgFor } from '@angular/common';
 import { ModalComponent } from './modal/modal.component';
+import { SuccessModalComponent } from './success-modal/success-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class WorkshopsService {
 
   constructor(private http: HttpClient, private modalService : NgbModal) { }
 
-  getTools(): Observable<Tool[]> {
+  getTools(): Observable<any> {
     return this.http.get<Tool[]>(this.toolUrl);
   }
 
@@ -39,13 +40,21 @@ export class WorkshopsService {
     return this.http.get<Workshop>(`${this.listUrl}${id}/`);
   }
 
-  createWorkshop(workshop :Workshop) : Observable<Workshop>{
+  createWorkshop(workshop :Workshop) : Observable<HttpResponse<any>>{
     
-    return this.http.post<Workshop>(this.createUrl, workshop);
+    return this.http.post<Workshop>(this.createUrl, workshop, { observe: 'response' });
   }
 
-  deleteWorkshop(id : number) : Observable<Workshop> {
-    return this.http.delete<Workshop>(`${this.baseUrl}${id}/delete/`);
+  updateWorkshop(id: number, workshop: Workshop): Observable<any> {
+    console.log('Data being sent:', workshop);
+    return this.http.patch(`${this.baseUrl}${id}/edit/`, workshop, { observe: 'response' });
+  }
+
+  deleteWorkshop(id : number) : Observable<any> {
+    return this.http.delete<void>(`${this.baseUrl}${id}/delete/`, { observe: 'response' }).pipe(
+      tap(() => console.log(`Workshop with ID ${id} deleted successfully`)),
+      catchError(this.handleError)
+    );
   }
 
   handleError(error: HttpErrorResponse) {
@@ -71,9 +80,21 @@ export class WorkshopsService {
     return errorMessages;
   }
 
+  openModal(statusCode: number, statusMessage: string) {
+    const modalRef = this.modalService.open(SuccessModalComponent);
+    modalRef.componentInstance.statusCode = statusCode;
+    modalRef.componentInstance.message = statusMessage;
+  }
+
   openErrorModal(errorMessages: string[]) {
     const errorModal = this.modalService.open(ModalComponent, {centered : true, size : "lg"});
     errorModal.componentInstance.errorMessages = errorMessages;
   }
 
+  private workshopDeletedSource = new Subject<number>(); // Subject to emit deleted workshop ID
+  workshopDeleted$ = this.workshopDeletedSource.asObservable();
+  // Notify the workshop list component when a workshop is deleted
+  notifyWorkshopDeleted(id: number) {
+    this.workshopDeletedSource.next(id);
+  }
 }

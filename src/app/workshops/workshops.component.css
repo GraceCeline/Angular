@@ -21,3 +21,33 @@ input {
     padding: 10px; /* Add padding for better spacing */
     margin : auto;
   }
+
+  .pagination {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+  
+  .arrow, .page-box {
+    background-color: #ddd;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .page-box.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+ 
+  

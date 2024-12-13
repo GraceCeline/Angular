@@ -12,17 +12,13 @@ import { DeleteWorkshopComponent } from '../delete-workshop/delete-workshop.comp
   styleUrl: './workshop-card.component.css'
 })
 export class WorkshopCardComponent {
-  @Input() workshop: any;
+  @Input() workshop: Workshop;
   @Output() edit = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
 
   ngOnInit() : void {}
 
   constructor(private modalService: NgbModal) {}
-
-  onEdit() {
-    this.edit.emit();
-  }
 
   openDeleteModal(id : number): void {
     const modalRef = this.modalService.open(DeleteWorkshopComponent);

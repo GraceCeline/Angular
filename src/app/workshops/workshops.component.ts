@@ -1,42 +1,54 @@
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { WorkshopsService } from '../workshops.service';
 import { RouterModule } from '@angular/router';
-import { Router } from 'express';
 import { NgFor, NgIf } from '@angular/common';
 import { Workshop } from './workshops.model';
 import { FormsModule } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { WorkshopCardComponent } from '../workshop-card/workshop-card.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workshops',
   standalone: true,
-  imports: [RouterModule, NgFor, NgIf, FormsModule,],
+  imports: [RouterModule, NgFor, NgIf, FormsModule, WorkshopCardComponent],
   templateUrl: './workshops.component.html',
   styleUrl: './workshops.component.css',
-  providers: [ WorkshopsService, ]
+  providers: [WorkshopsService,]
 })
-export class WorkshopsComponent implements OnInit{
- 
+export class WorkshopsComponent implements OnInit {
+
   title = "Workshop"
 
   searchQuery: string = '';
   filteredWorkshops: Workshop[] = [];
-  pages : number = 1;
+  pages: number = 1;
   previousPage!: string;
   nextPage!: string;
-  currentPage : number = 1;
-  @Output() pageChange = new EventEmitter<PageEvent>();
+  currentPage: number = 1;
+  @Output() pageChange = new EventEmitter<number>();
+  private workshopDeletedSubscription: Subscription;
 
-  constructor (private workshopsService : WorkshopsService) {}
+  constructor(private workshopsService: WorkshopsService) { }
 
   ngOnInit(): void {
-    
+
+    this.workshopDeletedSubscription = this.workshopsService.workshopDeleted$.subscribe(
+      (deletedWorkshopId: number) => {
+        this.removeWorkshopFromList(deletedWorkshopId); // Remove the deleted workshop from the list
+      }
+    );
+
+  }
+
+  ngOnDestroy() {
+    if (this.workshopDeletedSubscription) {
+      this.workshopDeletedSubscription.unsubscribe();  // Clean up subscription when component is destroyed
+    }
   }
 
   getWorkshops() {
     const query = this.searchQuery.trim();
-    this.workshopsService.getWorkshops(query).subscribe(
-      (data) => {
+    this.workshopsService.getWorkshops(query).subscribe(data => {
         console.log(data);
         this.filteredWorkshops = data.results;
         console.log(this.filteredWorkshops.length);
@@ -44,13 +56,9 @@ export class WorkshopsComponent implements OnInit{
         this.previousPage = data.previous;
         this.nextPage = data.next;
         console.log(this.pages);
-      },
-      (error) => {
-        console.error('Error fetching workshops:', error);
       }
     );
   }
-
 
   chunkedWorkshops(array: any[], chunkSize: number): any[][] {
     const result = [];
@@ -67,17 +75,13 @@ export class WorkshopsComponent implements OnInit{
     }
   }
 
-  goToNext(url : string){
+  goToNext() {
     this.currentPage++;
     this.workshopsService.getWorkshopsByUrl(this.nextPage).subscribe(
       (data) => {
-        console.log(data);
         this.filteredWorkshops = data.results;
-        console.log(this.filteredWorkshops.length);
-        this.pages = Math.ceil(data.count / 6);
         this.previousPage = data.previous;
         this.nextPage = data.next;
-        console.log(this.pages);
       },
       (error) => {
         console.error('Error fetching workshops:', error);
@@ -85,22 +89,22 @@ export class WorkshopsComponent implements OnInit{
     );
   }
 
-  goToPrevious(url : string){
+  goToPrevious() {
     this.currentPage--;
     this.workshopsService.getWorkshopsByUrl(this.previousPage).subscribe(
       (data) => {
-        console.log(data);
         this.filteredWorkshops = data.results;
-        console.log(this.filteredWorkshops.length);
-        this.pages = Math.ceil(data.count / 6);
         this.previousPage = data.previous;
         this.nextPage = data.next;
-        console.log(this.pages);
       },
       (error) => {
         console.error('Error fetching workshops:', error);
       }
     );
+  }
+
+  removeWorkshopFromList(id: number) {
+    this.filteredWorkshops = this.filteredWorkshops.filter(workshop => workshop.id !== id);
   }
 
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WorkshopsComponent } from './workshops/workshops.component'; // Your custom component 
@@ -13,15 +14,19 @@ import { DetailWorkshopComponent } from './detail-workshop/detail-workshop.compo
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './modal/modal.component';
 import { WorkshopCardComponent } from './workshop-card/workshop-card.component';
+import { SuccessModalComponent } from './success-modal/success-modal.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,  // <-- Ensure AppComponent is declared here
-    WorkshopsComponent, // Your custom component
+    WorkshopsComponent, 
     CreateWorkshopComponent,
     DetailWorkshopComponent,
     ModalComponent,
     WorkshopCardComponent,
+    SuccessModalComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
