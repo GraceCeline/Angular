@@ -1,66 +1,85 @@
-<form [formGroup]="workshopForm" >
-    <div>
-      <label for="workshop_title">Workshop Title: </label>
-      <input id="workshop_title" formControlName="workshop_title" />
-    </div>
-  
-    <div>
-      <label for="description">Description : </label>
-      <textarea id="description" formControlName="description"></textarea>
-    </div>
+<div class="form-group">
+  <h2 >{{ workshop_id ? 'Edit Workshop' : 'Create Workshop' }}</h2>
 
-    <div>
-      <label for="date">Date : </label>
-      <input id="date" type="date" formControlName="date" />
-    </div>
-  
-    <div>
-      <label for="prerequisite">Prerequisite</label>
-      <input id="prerequisite" formControlName="prerequisite" />
-    </div>
-  
-    <div>
-      <label for="max_participants">Max Participants</label>
-      <input id="max_participants" type="number" formControlName="max_participants" />
-    </div>
-  
-    <div>
-      <label for="typeOfPresence">Type of Presence</label>
-      <select id="typeOfPresence" formControlName="typeOfPresence">
-        <option value="onsite">Onsite</option>
-        <option value="hybrid">Hybrid</option>
-        <option value="online">Online</option>
-      </select>
-    </div>
-  
-    <div>
-      <label for="location">Location</label>
-      <input id="location" formControlName="location" />
-    </div>
-  
-    <div>
-      <label for="registrationLink">Registration Link</label>
-      <input id="registrationLink" formControlName="registrationLink" />
-    </div>
-  
-    <div>
-      <label for="registration_deadline">Registration Deadline</label>
-      <input id="registration_deadline" type="date" formControlName="registration_deadline" />
-    </div>
-  
-    <div>
-      <label for="isPrivate">
-        <input type="checkbox" id="isPrivate" formControlName="isPrivate" /> Private
-      </label>
-    </div>
-
-    <div>
-      <label>Tools</label>
-      <div *ngFor="let t of tool">
-        <input type="checkbox" [value]="t.id" (change)="onToolChange(t, $event)"/>
-        <label>{{ t.tool }}</label>
+  <form [formGroup]="workshopForm" >
+      <div class="label-input-container">
+        <label for="workshop_title">Workshop Title: </label>
+        <input matInput id="workshop_title" formControlName="workshop_title" />
       </div>
-    </div>
+    
+      <div class="label-input-container">
+        <label for="description">Description : </label>
+        <input id="description" formControlName="description"/>
+      </div>
 
-    <button type="submit" (click)="createWorkshop()">Save Workshop</button>
-</form>
+      <div class="label-input-container">
+        <label for="date">Date : </label>
+        <input id="date" type="date" formControlName="date" />
+      </div>
+
+      <div class="error" [class.visible]="workshopForm.get('date')?.invalid && workshopForm.get('date')?.touched">
+        Date is invalid!
+      </div>
+    
+      <div class="label-input-container">
+        <label for="prerequisite">Prerequisite</label>
+        <input id="prerequisite" formControlName="prerequisite" />
+      </div>
+    
+      <div class="label-input-container">
+        <label for="max_participants">Max Participants</label>
+        <input id="max_participants" type="number" formControlName="max_participants" />
+      </div>
+    
+      <div class="label-input-container">
+        <label for="typeOfPresence">Type of Presence </label>
+        <div class="selection">
+          <select id="typeOfPresence" formControlName="typeOfPresence" class="cute-dropdown">
+            <option value="onsite">Onsite</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="online">Online</option>
+          </select>
+        </div>
+      </div>
+    
+      <div *ngIf="workshopForm.get('typeOfPresence')?.value !== 'online'" class="label-input-container">
+        <label for="location">Location</label>
+        <input id="location" formControlName="location" />
+      </div>
+    
+      <div class="label-input-container">
+        <label for="registrationLink">Registration Link</label>
+        <input id="registrationLink" formControlName="registrationLink" />
+      </div>
+    
+      <div class="label-input-container">
+        <label for="registration_deadline">Registration Deadline</label>
+        <input id="registration_deadline" type="date" formControlName="registration_deadline" />
+      </div>
+
+      <div class="error" [class.visible]="workshopForm.get('registration_deadline')?.invalid && workshopForm.get('registration_deadline')?.touched">
+        Date is invalid!
+      </div>
+    
+      <div class="label-input-container">
+        <label for="isPrivate" class="checkbox-label">
+          Private <input type="checkbox" id="isPrivate" formControlName="isPrivate" /> 
+        </label>
+      </div>
+
+      <div class="label-input-container">
+        <label><strong>Tools</strong></label>
+        <div *ngFor="let t of tool ; let i = index">
+          <input type="checkbox" [value]="t.id" [checked]="isToolSelected(t.id)"   (change)="onToolChange(t, $event)"/>
+          <label class="checkbox-label">{{ t.tool }}</label>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit" (click)="submitWorkshop()">{{ workshop_id ? 'Save Changes' : 'Create Workshop' }}</button>
+  </form>
+</div>
+
+
+
+  
+
