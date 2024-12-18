@@ -25,7 +25,7 @@ export class WorkshopsComponent implements OnInit {
   previousPage!: string;
   nextPage!: string;
   currentPage: number = 1;
-  @Output() pageChange = new EventEmitter<number>();
+  workshopToDelete: Workshop;
   private workshopDeletedSubscription: Subscription;
 
   constructor(private workshopsService: WorkshopsService) { }

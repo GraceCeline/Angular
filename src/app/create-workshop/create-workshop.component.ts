@@ -106,7 +106,7 @@ export class CreateWorkshopComponent implements OnInit{
       this.workshopsService.updateWorkshop(this.workshop_id, workshopData).subscribe({
         next: (response) => {
           console.log(response.status);
-          this.workshopsService.openModal(200,"Updated successfully"); // Added manually for now since getting http status is problematic
+          this.workshopsService.openModal(response.status,"Updated successfully"); // Added manually for now since getting http status is problematic
           this.router.navigate(['']);
         },
         error: (error) => {
@@ -117,7 +117,7 @@ export class CreateWorkshopComponent implements OnInit{
       this.workshopsService.createWorkshop(workshopData).subscribe(
         response => {
           console.log('Workshop saved successfully:', response.status);
-          this.workshopsService.openModal(200, "Workshop saved successfully ");
+          this.workshopsService.openModal(response.status, "Workshop saved successfully ");
           this.workshopForm.reset();
           this.router.navigate(['']);
           },

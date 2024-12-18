@@ -17,7 +17,8 @@
     <div class="row" *ngFor="let row of chunkedWorkshops(filteredWorkshops, 3)">
       <div class="col-md-4" *ngFor="let workshop of row">
         <app-workshop-card 
-        [workshop]="workshop" py>
+        [workshop]="workshop"
+        (workshopDeleted) = "removeWorkshopFromList($event)">
       </app-workshop-card>
       </div>
     </div>
