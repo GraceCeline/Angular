@@ -3,7 +3,7 @@
     <p>All workshops available are listed below</p>
     <p><a href="http://127.0.0.1:8000/admin/" target="_blank" style="text-decoration: none;">Are you an admin? Go to the admin site!</a></p>
     <button class="btn btn-secondary" style=" color: white;"><a [routerLink]="['/create']" >Create your own workshop here!</a></button> 
-    <button class="btn btn-secondary">Log out</button>
+    <button class="btn btn-secondary" (click) = "logout()">Log out</button>
 </div>
 
 <div class="search text-center mb-4 my-4">

@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { Workshop } from '../workshops/workshops.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkshopsService } from '../workshops.service';
-import { DeleteWorkshopComponent } from '../delete-workshop/delete-workshop.component';
 import { WorkshopsComponent } from '../workshops/workshops.component';
 
 @Component({
