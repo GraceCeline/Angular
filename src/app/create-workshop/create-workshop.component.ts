@@ -29,7 +29,7 @@ export class CreateWorkshopComponent implements OnInit{
   toolRetrieved : number[];
   isEditMode: boolean = false;
   statusCode: number;
-  
+  selectedTools: { [id: number]: boolean } = {};  
 
   constructor (private route : ActivatedRoute, private fb: FormBuilder, private workshopsService : WorkshopsService, private router:Router, private modalService : NgbModal, private http: HttpClient) {}
 
@@ -45,6 +45,9 @@ export class CreateWorkshopComponent implements OnInit{
         console.log(data);
         this.workshopForm.patchValue(data);
         this.toolRetrieved = data.tool || [];
+        this.tool.forEach(toolRetrieved => {
+          this.selectedTools[toolRetrieved.id] = this.toolRetrieved.includes(toolRetrieved.id);
+        });
       });
       
     } 
@@ -67,7 +70,6 @@ export class CreateWorkshopComponent implements OnInit{
 
    loadTools() {
     this.workshopsService.getTools().subscribe(data => {
-      // const tool_list = data.results;
       this.tool = data.results;
       console.log(this.tool);
     });
@@ -93,15 +95,19 @@ export class CreateWorkshopComponent implements OnInit{
     }
   }
 
-
-  isToolSelected(id: number): boolean {
-    const selectedTools = this.workshopForm.value.tool || [];
-    return selectedTools.includes(id);
+  toggleToolSelection(toolId: number): void {
+    if (this.toolRetrieved.includes(toolId)) {
+      this.selectedTools[toolId] = false;
+      this.toolRetrieved = this.toolRetrieved.filter(id => id !== toolId);
+    } else {
+      this.selectedTools[toolId] = true;
+      this.toolRetrieved.push(toolId);
+    }
   }
 
   submitWorkshop() : void{
     const workshopData = new Workshop(this.workshopForm.value as Partial<Workshop>);
-    console.log(workshopData.tool);
+    console.log(workshopData);
     if (this.workshop_id) {
       this.workshopsService.updateWorkshop(this.workshop_id, workshopData).subscribe({
         next: (response) => {
