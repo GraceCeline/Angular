@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { catchError, map, Observable, Subject, tap, throwError } from 'rxjs';
 import { Workshop } from './workshops/workshops.model';
 import { Tool } from './workshops/tool.model';
@@ -21,13 +21,19 @@ export class WorkshopsService {
   constructor(private http: HttpClient, private modalService : NgbModal) { }
 
   getTools(): Observable<any> {
-    return this.http.get<Tool[]>(this.toolUrl);
+    return this.http.get<any>(this.toolUrl);
   }
 
   getWorkshops(query : string): Observable<any> {
+    const token = localStorage.getItem('token');
     let params = new HttpParams();;
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Token ${token}`);
+    }
+
     params = params.set('search', query);
-    return this.http.get<any>(`${this.listUrl}`, { params });
+    return this.http.get<any>(`${this.listUrl}`, { headers, params });
 
   }
 
