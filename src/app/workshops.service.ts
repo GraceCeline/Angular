@@ -4,7 +4,7 @@ import { catchError, map, Observable, Subject, tap, throwError } from 'rxjs';
 import { Workshop } from './workshops/workshops.model';
 import { Tool } from './workshops/tool.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgFor } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from './modal/modal.component';
 import { SuccessModalComponent } from './success-modal/success-modal.component';
 
@@ -17,8 +17,9 @@ export class WorkshopsService {
   toolUrl = 'http://localhost:8000/workshop/tools/';
   token = "6a4dba40365ded0dd5bf34e124d2caa4cda79bd1";
   baseUrl = 'http://localhost:8000/workshop/';
+  dummyUrl = 'http://localhost:8000/dummy/';
 
-  constructor(private http: HttpClient, private modalService : NgbModal) { }
+  constructor(private http: HttpClient, private modalService : NgbModal, private dialog : MatDialog) { }
 
   getTools(): Observable<any> {
     return this.http.get<any>(this.toolUrl);
@@ -39,8 +40,7 @@ export class WorkshopsService {
 
   getWorkshopsByUrl(url: string): Observable<any> {
     return this.http.get<any>(url);
-  }
-  
+  }  
 
   getDetailWorkshop(id : number) : Observable<Workshop> {
     return this.http.get<Workshop>(`${this.listUrl}${id}/`);
@@ -102,5 +102,9 @@ export class WorkshopsService {
   // Notify the workshop list component when a workshop is deleted
   notifyWorkshopDeleted(id: number) {
     this.workshopDeletedSource.next(id);
+  }
+
+  goToDummy() {
+     return this.http.get(this.dummyUrl, { observe: 'response' });
   }
 }

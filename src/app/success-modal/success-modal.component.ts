@@ -16,6 +16,7 @@ export class SuccessModalComponent {
   constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
+    console.log(this.statusCode)
     console.log(this.message)
   }
 }

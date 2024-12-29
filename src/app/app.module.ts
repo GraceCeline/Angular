@@ -17,6 +17,7 @@ import { WorkshopCardComponent } from './workshop-card/workshop-card.component';
 import { SuccessModalComponent } from './success-modal/success-modal.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { DummyComponent } from './dummy/dummy.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { RegisterComponent } from './register/register.component';
     SuccessModalComponent,
     LoginComponent,
     RegisterComponent,
+    DummyComponent,
   ],
   imports: [
     BrowserModule,
