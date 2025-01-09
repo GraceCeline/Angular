@@ -70,7 +70,7 @@
       <div class="label-input-container">
         <label><strong>Tools</strong></label>
         <div *ngFor="let t of tool ; let i = index">
-          <input type="checkbox" [value]="t.id" [checked]="isToolSelected(t.id)"   (change)="onToolChange(t, $event)"/>
+          <input type="checkbox" [value]="t.id" [checked]="selectedTools[t.id]"  (change)="onToolChange(t, $event)"/>
           <label class="checkbox-label">{{ t.tool }}</label>
         </div>
       </div>
